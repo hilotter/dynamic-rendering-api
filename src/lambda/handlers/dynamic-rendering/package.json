@@ -1,0 +1,15 @@
+{
+  "name": "dynamic-rendering",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.701.0",
+    "chrome-aws-lambda": "^3.1.1",
+    "puppeteer-core": "^4.0.0",
+    "source-map-support": "^0.5.19"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.56"
+  }
+}
