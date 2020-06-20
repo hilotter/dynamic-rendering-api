@@ -1,6 +1,6 @@
-import * as cdk from '@aws-cdk/core';
+import * as cdk from '@aws-cdk/core'
 import * as lambda from '@aws-cdk/aws-lambda'
-import { LambdaRestApi } from '@aws-cdk/aws-apigateway';
+import { LambdaRestApi, LambdaIntegration, ApiKeySourceType } from '@aws-cdk/aws-apigateway'
 
 export class DynamicRenderingApiStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -22,9 +22,26 @@ export class DynamicRenderingApiStack extends cdk.Stack {
       layers: [puppeteerLayer],
     });
 
-    new LambdaRestApi(this, 'DynamicRenderingAPI', {
+    const dynamicRenderingApi = new LambdaRestApi(this, 'DynamicRenderingAPI', {
       description: "DynamicRenderingAPI",
-      handler: dynamicRenderingLambda
+      handler: dynamicRenderingLambda,
+      proxy: false,
+      apiKeySourceType: ApiKeySourceType.HEADER,
     });
+    dynamicRenderingApi.root.addMethod('GET', new LambdaIntegration(dynamicRenderingLambda), {
+      apiKeyRequired: true,
+    })
+
+    const apiKey = process.env.API_KEY
+    const dynamicRenderingApiKey = dynamicRenderingApi.addApiKey('DynamicRenderingAPIKey', {
+      apiKeyName: "DynamicRenderingAPIKey",
+      value: apiKey,
+    })
+
+    dynamicRenderingApi.addUsagePlan('DynamicRenderingAPIKeyPlan', {
+      apiKey: dynamicRenderingApiKey,
+    }).addApiStage({
+      stage: dynamicRenderingApi.deploymentStage,
+    })
   }
 }
