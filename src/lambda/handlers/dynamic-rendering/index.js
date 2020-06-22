@@ -22,7 +22,6 @@ exports.handler = async function (event) {
     };
   }
 
-  console.log(url);
   try {
     browser = await chromium.puppeteer.launch({
       args: chromium.args,
