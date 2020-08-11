@@ -29,7 +29,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "@aws-cdk/aws-apigateway": "^1.46.0",
+    "@aws-cdk/aws-apigateway": "^1.57.0",
     "@aws-cdk/aws-lambda": "^1.46.0",
     "@aws-cdk/aws-lambda-nodejs": "^1.46.0",
     "@aws-cdk/core": "^1.46.0",
